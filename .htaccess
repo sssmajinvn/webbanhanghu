@@ -1,0 +1,15 @@
+# Bật module mod_rewrite của Apache để viết lại URL
+RewriteEngine On
+
+# Điều kiện 1: Nếu URL KHÔNG phải là một file thực tế tồn tại trên server
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Điều kiện 2: Nếu URL KHÔNG phải là một thư mục thực tế tồn tại trên server
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Quy tắc: Chuyển toàn bộ URL vào index.php thông qua tham số GET 'url'
+# ^(.*)$ : Bắt toàn bộ URL (regex)
+# index.php?url=$1 : Truyền URL gốc vào biến $_GET['url']
+# [QSA] : Query String Append - giữ lại các tham số query string gốc (vd: ?page=2)
+# [L] : Last - đây là rule cuối cùng, không xử lý rule nào phía sau
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
