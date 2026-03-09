@@ -1,31 +1,130 @@
 <?php include 'app/views/shares/header.php'; ?>
-<h1>Giỏ hàng</h1>
-<?php if (!empty($cart)): ?>
-<ul class="list-group">
-<?php foreach ($cart as $id => $item): ?>
-<li class="list-group-item">
-<h2><?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8');
 
-?></h2>
+<h3 class="mb-4">Giỏ hàng</h3>
 
-<?php if ($item['image']): ?>
-<img src="/webbanhang/<?php echo $item['image']; ?>" alt="Product
+<?php if(!empty($cart)): ?>
 
-Image" style="max-width: 100px;">
-<?php endif; ?>
+<div class="row">
 
-<p>Giá: <?php echo htmlspecialchars($item['price'], ENT_QUOTES, 'UTF-8'); ?> VND</p>
+<!-- DANH SÁCH SẢN PHẨM -->
 
-<p>Số lượng: <?php echo htmlspecialchars($item['quantity'],
+<div class="col-md-8">
 
-ENT_QUOTES, 'UTF-8'); ?></p>
+<table class="table table-bordered bg-white">
 
-</li>
+<tr>
+<th>Hình</th>
+<th>Sản phẩm</th>
+<th>Giá</th>
+<th>Số lượng</th>
+<th>Thành tiền</th>
+<th>Xoá</th>
+</tr>
+
+<?php 
+$total = 0;
+foreach($cart as $id => $item): 
+
+$subtotal = $item['price'] * $item['quantity'];
+$total += $subtotal;
+?>
+
+<tr>
+
+<td style="width:90px">
+<img src="/webbanhang/<?php echo $item['image'] ?>" width="70">
+</td>
+
+<td class="text-start">
+<?php echo $item['name'] ?>
+</td>
+
+<td>
+<?php echo number_format($item['price']) ?>
+</td>
+
+<td>
+
+<a href="/webbanhang/Product/decrease/<?php echo $id ?>" class="btn btn-sm btn-danger">-</a>
+
+<span class="mx-2"><?php echo $item['quantity'] ?></span>
+
+<a href="/webbanhang/Product/increase/<?php echo $id ?>" class="btn btn-sm btn-success">+</a>
+
+</td>
+
+<td>
+<?php echo number_format($subtotal) ?>
+</td>
+
+<td>
+
+<a href="/webbanhang/Product/remove/<?php echo $id ?>" 
+class="btn btn-sm btn-outline-danger"
+onclick="return confirm('Xoá sản phẩm này?')">
+
+🗑
+
+</a>
+
+</td>
+
+</tr>
+
 <?php endforeach; ?>
-</ul>
+
+</table>
+
+<a href="/webbanhang/Product" class="btn btn-secondary">
+← Tiếp tục mua
+</a>
+
+</div>
+
+
+<!-- Ô THÀNH TIỀN -->
+
+<div class="col-md-4">
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<h5 class="mb-3">Thành tiền</h5>
+
+<hr>
+
+<h4 class="text-primary">
+
+<?php echo number_format($total) ?> VND
+
+</h4>
+
+<hr>
+
+<a href="/webbanhang/Product/checkout" 
+class="btn btn-primary w-100">
+
+Thanh toán
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 <?php else: ?>
+
 <p>Giỏ hàng của bạn đang trống.</p>
+
+<a href="/webbanhang/Product" class="btn btn-primary">
+Tiếp tục mua sắm
+</a>
+
 <?php endif; ?>
-<a href="/webbanhang/Product" class="btn btn-secondary mt-2">Tiếp tục mua sắm</a>
-<a href="/webbanhang/Product/checkout" class="btn btn-secondary mt-2">Thanh Toán</a>
+
 <?php include 'app/views/shares/footer.php'; ?>

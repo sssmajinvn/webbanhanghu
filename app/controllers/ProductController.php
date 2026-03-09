@@ -131,6 +131,36 @@ throw new Exception("Có lỗi xảy ra khi tải lên hình ảnh.");
 }
 return $target_file;
 }
+
+public function category($id)
+{
+    $products = $this->productModel->getProductsByCategory($id);
+
+    include 'app/views/product/list.php';
+}
+
+public function increase($id)
+{
+    if(isset($_SESSION['cart'][$id])){
+        $_SESSION['cart'][$id]['quantity']++;
+    }
+
+    header('Location: /webbanhang/Product/cart');
+    exit;
+}
+
+public function decrease($id)
+{
+    if(isset($_SESSION['cart'][$id])){
+        if($_SESSION['cart'][$id]['quantity'] > 0){
+            $_SESSION['cart'][$id]['quantity']--;
+        }
+    }
+
+    header('Location: /webbanhang/Product/cart');
+    exit;
+}
+
 public function addToCart($id)
 {
 $product = $this->productModel->getProductById($id);
@@ -173,6 +203,8 @@ if (!isset($_SESSION['cart'])) {
     echo "Giỏ hàng trống.";
     return;
     }
+
+    
     // Bắt đầu giao dịch
     $this->db->beginTransaction();
     try {

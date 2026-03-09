@@ -1,39 +1,72 @@
-<?php include 'app/views/shares/header.php'; ?>
-<h1>Danh sách sản phẩm</h1>
-<a href="/webbanhang/Product/add" class="btn btn-success mb-2">Thêm sản phẩm mới</a>
-<ul class="list-group">
-<?php foreach ($products as $product): ?>
-<li class="list-group-item">
-<h2><a href="/webbanhang/Product/show/<?php echo $product->id; ?>"><?php
+<?php include 'app/views/shares/header_home.php'; ?>
 
-echo htmlspecialchars($product->name, ENT_QUOTES, 'UTF-8'); ?></a></h2>
+<div class="row">
 
-<?php if ($product->image): ?>
-<img src="/webbanhang/<?php echo $product->image; ?>" alt="Product
+<?php foreach($products as $product): ?>
 
-Image" style="max-width: 100px;">
+<div class="col-md-4 mb-4">
+
+<div class="product-card">
+
+<!-- IMAGE -->
+
+<?php if(!empty($product->image)): ?>
+
+<img src="/webbanhang/<?php echo $product->image ?>" class="product-img">
+
+<?php else: ?>
+
+<img src="https://via.placeholder.com/300x200" class="product-img">
+
 <?php endif; ?>
 
-<p><?php echo htmlspecialchars($product->description, ENT_QUOTES, 'UTF-8'); ?></p>
 
-<p>Giá: <?php echo htmlspecialchars($product->price, ENT_QUOTES, 'UTF-8');
+<!-- NAME -->
 
-?> VND</p>
+<div class="product-title mt-2">
+<?php echo $product->name ?>
+</div>
 
-<p>Danh mục: <?php echo htmlspecialchars($product->category_name,
 
-ENT_QUOTES, 'UTF-8'); ?></p>
-<a href="/webbanhang/Product/edit/<?php echo $product->id; ?>" class="btn
+<!-- PRICE -->
 
-btn-warning">Sửa</a>
+<div class="price">
+<?php echo number_format($product->price) ?> VND
+</div>
 
-<a href="/webbanhang/Product/delete/<?php echo $product->id; ?>"
-class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>
 
-<a href="/webbanhang/Product/addToCart/<?php echo $product->id; ?>"
+<!-- BUTTON -->
 
-class="btn btn-primary">Thêm vào giỏ hàng</a>
-</li>
+<div class="product-actions mt-2">
+
+<a href="/webbanhang/Product/addToCart/<?php echo $product->id ?>" 
+class="btn btn-primary btn-sm w-100 mb-1">
+Thêm vào giỏ
+</a>
+
+<div class="d-flex gap-1">
+
+<a href="/webbanhang/Product/edit/<?php echo $product->id ?>" 
+class="btn btn-warning btn-sm w-50">
+Sửa
+</a>
+
+<a href="/webbanhang/Product/delete/<?php echo $product->id ?>" 
+class="btn btn-danger btn-sm w-50"
+onclick="return confirm('Bạn có chắc muốn xoá?')">
+Xoá
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 <?php endforeach; ?>
-</ul>
-<?php include 'app/views/shares/footer.php'; ?> 
+
+</div>
+
+<?php include 'app/views/shares/footer.php'; ?>
